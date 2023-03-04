@@ -30,9 +30,9 @@ class Vehicles extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(VehicleRequest $request, ImportModelService $importModelService)
+    public function store(VehicleRequest $request, CreateVehicleAction $createVehicleAction,VINDecodeService $VINDecodeService)
     {
-       return $createVehicleAction->handle($request,$VINDecodeService);
+        return $createVehicleAction->handle($request,$VINDecodeService);
     }
 
     /**
