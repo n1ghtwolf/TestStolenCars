@@ -15,9 +15,8 @@ use App\Http\Controllers\Vehicles;
 |
 */
 
-Route::prefix('/vehicles')->group(function () {
-    Route::controller(Vehicles::class)->group(function () {
-        Route::post('/export','export');
+Route::prefix('/vehicles')->controller(Vehicles::class)->group(function () {
+        Route::get('/export','export');
         Route::get('/autocomplete','autoComplete');
         Route::post('/store','store');
         Route::post('/update','update');
@@ -25,5 +24,4 @@ Route::prefix('/vehicles')->group(function () {
         Route::get('/','index');
         Route::get('/{id}','show');
         Route::post('/keyword','scopeSearch');
-    });
 });

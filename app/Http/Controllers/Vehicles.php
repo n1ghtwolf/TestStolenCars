@@ -21,18 +21,17 @@ class Vehicles extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(VehicleFilters $filters,string $order = 'id')
+    public function index(VehicleFilters $filters)
     {
-        return Vehicle::filter($filters)->orderBy($order)->paginate(10);
-
+        return Vehicle::filter($filters)->with('mark:name')->with('model:name')->paginate(10);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(VehicleRequest $request, CreateVehicleAction $createVehicleAction,VINDecodeService $VINDecodeService)
+    public function store(VehicleRequest $request, CreateVehicleAction $createVehicleAction)
     {
-        return $createVehicleAction->handle($request,$VINDecodeService);
+        return $createVehicleAction->handle($request);
     }
 
     /**
@@ -58,14 +57,10 @@ class Vehicles extends Controller
     {
         return Vehicle::destroy($request->validated());
     }
-    public function scopeSearch(Request $request){
-        return Vehicle::where('name','LIKE',"%{$request->input('keyword')}%")
-                ->orWhere('gov_number','LIKE',"%{$request->input('keyword')}%")
-                ->orWhere('VIN', 'LIKE', "%{$request->input('keyword')}%")->get();
-    }
-    public function export()
+
+    public function export(VehicleFilters $filters)
     {
-        return Excel::download(new VehiclesExport, 'vehicles.xlsx');
+        return Excel::download(new VehiclesExport($filters), 'vehicles.xlsx');
     }
 
 

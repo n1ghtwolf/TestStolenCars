@@ -8,6 +8,8 @@ class VehicleFilters
         'mark' => MarkFilter::class,
         'model' => ModelFilter::class,
         'year' => YearFilter::class,
+        'search' => SearchFilter::class,
+        'sorting' => SortingFilter::class,
     ];
 
     public function apply($query)

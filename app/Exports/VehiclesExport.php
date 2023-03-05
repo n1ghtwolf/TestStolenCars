@@ -2,13 +2,21 @@
 
 namespace App\Exports;
 
+use App\Filters\VehicleFilters;
 use App\Models\Vehicles;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 
-class VehiclesExport implements FromCollection
+class VehiclesExport  implements FromQuery
 {
-    public function collection()
+
+    private $filters;
+
+    public function __construct($filters)
     {
-        return Vehicles::all();
+        $this->filters = $filters;
+    }
+    public function query()
+    {
+        return Vehicles::filter($this->filters);
     }
 }

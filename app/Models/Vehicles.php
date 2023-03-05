@@ -23,7 +23,8 @@ class Vehicles extends Model
     }
 
      public function scopeFilter($query, $filters)
-     {
-         return $filters->apply($query);
-     }
+    {
+        return $filters->apply($query);
+    }
+
 }
