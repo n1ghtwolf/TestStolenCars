@@ -14,17 +14,16 @@ use App\Http\Controllers\Vehicles;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('/vehicles/export',[Vehicles::class,'export']);
-Route::get('/vehicles/autocomplete',[Vehicles::class,'autoComplete']);
 
-//Route::apiResource('/vehicles', Vehicles::class);
-Route::apiResource('/vehicles', Vehicles::class);
-//->only([
-//        'index', 'show', 'store', 'update', 'destroy'
-//]);
-Route::post('/vehicles/store',[Vehicles::class,'store']);
-Route::post('/vehicles/show_all',[Vehicles::class,'index']);
-//Route::get('/vehicles/ordered/{order}',[Vehicles::class,'index']);
-//Route::get('/vehicles/filter/{filter}',[Vehicles::class,'index']);
-Route::post('/vehicles/keyword',[Vehicles::class,'scopeSearch']);
-//Route::get('/vehicles/show/{id}',[Vehicles::class,'show']);
+Route::prefix('/vehicles')->group(function () {
+    Route::controller(Vehicles::class)->group(function () {
+        Route::post('/export','export');
+        Route::get('/autocomplete','autoComplete');
+        Route::post('/store','store');
+        Route::post('/update','update');
+        Route::get('/destroy','destroy');
+        Route::get('/','index');
+        Route::get('/{id}','show');
+        Route::post('/keyword','scopeSearch');
+    });
+});
