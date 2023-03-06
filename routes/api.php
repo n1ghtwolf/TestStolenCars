@@ -17,7 +17,7 @@ use App\Http\Controllers\Vehicles;
 
 Route::prefix('/vehicles')->controller(Vehicles::class)->group(function () {
         Route::get('/export','export');
-        Route::get('/autocomplete','autoComplete');
+        Route::get('/autocomplete/{name}','autoComplete');
         Route::post('/store','store');
         Route::post('/update','update');
         Route::get('/destroy','destroy');

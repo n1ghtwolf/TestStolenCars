@@ -9,6 +9,7 @@ use App\Filters\VehicleFilters;
 use App\Http\Requests\VehicleDestroyRequest;
 use App\Http\Requests\VehicleRequest;
 use App\Http\Requests\AutoCompleteRequest;
+use App\Models\VehicleModels;
 use App\Services\VINDecodeService;
 use App\Services\ImportMarkService;
 use App\Services\ImportModelService;
@@ -23,14 +24,19 @@ class Vehicles extends Controller
      */
     public function index(VehicleFilters $filters)
     {
-        return Vehicle::filter($filters)->with('mark:name')->with('model:name')->paginate(10);
+        return Vehicle::filter($filters)
+            ->with("mark:name")
+            ->with("model:name")
+            ->paginate(10);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(VehicleRequest $request, CreateVehicleAction $createVehicleAction)
-    {
+    public function store(
+            VehicleRequest $request,
+        CreateVehicleAction $createVehicleAction
+    ) {
         return $createVehicleAction->handle($request);
     }
 
@@ -60,8 +66,17 @@ class Vehicles extends Controller
 
     public function export(VehicleFilters $filters)
     {
-        return Excel::download(new VehiclesExport($filters), 'vehicles.xlsx');
+        return Excel::download(new VehiclesExport($filters), "vehicles.xlsx");
     }
-
-
+    public function autoComplete(string $name)
+    {
+        return VehicleModels::join(
+                "vehicle_marks",
+            "vehicle_models.mark_id",
+            "=",
+            "vehicle_marks.mark_id"
+        )
+            ->where("vehicle_marks.name", "LIKE", "$name%")
+            ->pluck("vehicle_models.name");
+    }
 }

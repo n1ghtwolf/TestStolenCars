@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('vehicle_models', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('mark_id')->unsigned()->index()->nullable();
             $table->bigInteger('model_id')->unsigned()->index()->nullable()->unique();
             $table->string('name');
             $table->timestamps();

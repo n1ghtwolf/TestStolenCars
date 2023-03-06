@@ -18,9 +18,9 @@ class VIN {
             return ['error' => true];
         }
 
-        return collect(json_decode($response->body())->Results)
-            ->mapWithKeys(function ($item) {
-                return [$item->Variable => ($item->Variable === "Model Year" ? $item->Value : $item->ValueId)];
-            });
+        return VehicleResource::make(
+                json_decode($response->body())
+                );
+
     }
 }

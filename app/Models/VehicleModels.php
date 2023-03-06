@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class VehicleModels extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','model_id'];
+    protected $fillable = ['name','mark_id','model_id',];
     protected $hidden = ['created_at', 'updated_at'];
 
 }
