@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Http\Resources\VehicleResource;
 use Illuminate\Support\Facades\Http;
 
 class VIN {
