@@ -51,9 +51,9 @@ class Vehicles extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(VehicleRequest $request,string $id)
+    public function update(VehicleRequest $request, string $id)
     {
-        Vehicle::findOrFail($id)->update($request->validated());
+        return Vehicle::findOrFail($id)->update($request->validated());
     }
 
     /**
@@ -71,18 +71,12 @@ class Vehicles extends Controller
     public function autoComplete(string $name)
     {
         
-        $result = VehicleModels::join('vehicle_marks', 'vehicle_models.mark_id', '=', 'vehicle_marks.id')
-            ->select(VehicleModels::raw('vehicle_marks.name AS make, GROUP_CONCAT(vehicle_models.name) AS models'))
-            ->where('vehicle_marks.name', 'LIKE', 'FO%')
+        return VehicleModels::join('vehicle_marks', 'vehicle_models.mark_id', '=', 'vehicle_marks.id')
+            ->select(VehicleModels::raw('vehicle_marks.name AS mark, GROUP_CONCAT(vehicle_models.name) AS models'))
+            ->where('vehicle_marks.name', 'LIKE', "$name%")
             ->groupBy('vehicle_marks.name')
             ->orderBy('vehicle_marks.name')
-            ->get();
-
-        $output = [];
-        foreach ($result as $row) {
-            $output[] = ['mark' => $row->make, 'models' => explode(',', $row->models)];
-        }
-        return $output;
+            ->get()->map(fn ($item) => [ 'mark' => $item->mark,'models' => explode(',', $item->models)]);
 
     }
 }
