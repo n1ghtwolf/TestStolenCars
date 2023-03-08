@@ -8,6 +8,9 @@ make db
 ```
 setup .env
 ```
+```
+use artisan commands for import marks & models 
+```
 
 ## Тестове завдання
 Вся робота повинна бути виконана на Laravel. Результат роботи розмістити на гіт
