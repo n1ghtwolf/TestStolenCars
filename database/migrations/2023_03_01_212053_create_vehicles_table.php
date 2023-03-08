@@ -11,22 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-//        Schema::create('vehicles', function (Blueprint $table) {
-//                    $table->id();
-//                    $table->string('name');
-//                    $table->string('gov_number');
-//                    $table->string('color');
-//                    $table->string('vin');
-//                    $table->string('mark')->nullable();
-//                    $table->string('model')->nullable();
-//                    $table->string('year')->nullable();
-//                    $table->timestamps();
-//        });
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            //            $table->foreign('mark_id')->references('mark_id')->on('vehicle_marks');
-//            $table->unsignedBigInteger('model_id')->nullable();
-//            $table->foreign('model_id')->references('model_id')->on('vehicle_models');
             $table->string('name');
             $table->string('gov_number');
             $table->string('color');

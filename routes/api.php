@@ -19,9 +19,8 @@ Route::prefix('/vehicles')->controller(Vehicles::class)->group(function () {
         Route::get('/export','export');
         Route::get('/autocomplete/{name}','autoComplete');
         Route::post('/store','store');
-        Route::post('/update','update');
-        Route::get('/destroy','destroy');
+        Route::post('/update/{id}','update');
+        Route::get('/destroy/{id}','destroy');
         Route::get('/','index');
         Route::get('/{id}','show');
-        Route::post('/keyword','scopeSearch');
 });

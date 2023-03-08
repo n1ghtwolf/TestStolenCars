@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vehicle_marks', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('mark_id')->unsigned()->index()->nullable()->unique();;
+            $table->bigInteger('id')->unsigned()->unique();
             $table->string('name')->nullable();
             $table->timestamps();
+            $table->primary('id');
         });
     }
 

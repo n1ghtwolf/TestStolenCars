@@ -4,5 +4,7 @@ return [
     'format' => 'json',
     'methods' => [
             'decode' => 'DecodeVin',
+            'model' => 'getmodelsformakeid',
+            'marks' => 'getallmakes'
     ]
 ];

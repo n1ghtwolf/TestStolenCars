@@ -25,8 +25,8 @@ class Vehicles extends Controller
     public function index(VehicleFilters $filters)
     {
         return Vehicle::filter($filters)
-            ->with("mark:name")
-            ->with("model:name")
+            ->with(["mark", "model"])
+//            ->with("model:name")
             ->paginate(10);
     }
 
@@ -51,17 +51,17 @@ class Vehicles extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(VehicleRequest $request)
+    public function update(VehicleRequest $request,string $id)
     {
-        return Vehicle::update($request->validated());
+        Vehicle::findOrFail($id)->update($request->validated());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(VehicleDestroyRequest $request)
+    public function destroy(string $id)
     {
-        return Vehicle::destroy($request->validated());
+        return Vehicle::destroy($id);
     }
 
     public function export(VehicleFilters $filters)
@@ -70,13 +70,19 @@ class Vehicles extends Controller
     }
     public function autoComplete(string $name)
     {
-        return VehicleModels::join(
-                "vehicle_marks",
-            "vehicle_models.mark_id",
-            "=",
-            "vehicle_marks.mark_id"
-        )
-            ->where("vehicle_marks.name", "LIKE", "$name%")
-            ->pluck("vehicle_models.name");
+        
+        $result = VehicleModels::join('vehicle_marks', 'vehicle_models.mark_id', '=', 'vehicle_marks.id')
+            ->select(VehicleModels::raw('vehicle_marks.name AS make, GROUP_CONCAT(vehicle_models.name) AS models'))
+            ->where('vehicle_marks.name', 'LIKE', 'FO%')
+            ->groupBy('vehicle_marks.name')
+            ->orderBy('vehicle_marks.name')
+            ->get();
+
+        $output = [];
+        foreach ($result as $row) {
+            $output[] = ['mark' => $row->make, 'models' => explode(',', $row->models)];
+        }
+        return $output;
+
     }
 }

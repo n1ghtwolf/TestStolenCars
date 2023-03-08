@@ -12,7 +12,7 @@ Class CreateVehicleAction{
     {
 
         $data = $request->validated();
-        $decoded = VIN::decode($data['vin']);
+        $decoded = VIN::decode($data['vin'])->toArray(true);
 
         $data['mark_id'] = $decoded['Make'];
         $data['model_id'] = $decoded['Model'];
